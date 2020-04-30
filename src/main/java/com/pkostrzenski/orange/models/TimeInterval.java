@@ -1,16 +1,19 @@
 package com.pkostrzenski.orange.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.text.SimpleDateFormat;
 
 public class TimeInterval {
 
-    static final long INCORRECT_TIME_FORMAT = -1;
+    static final Long INCORRECT_TIME_FORMAT = -1L;
 
-    private long start;
-    private long end;
+    private Long start;
+    private Long end;
 
     public TimeInterval() { }
 
+    @JsonCreator
     public TimeInterval(String start, String end) {
         try {
             this.start = new SimpleDateFormat("HH:mm").parse(start).getTime();
@@ -26,16 +29,16 @@ public class TimeInterval {
         this.end = end;
     }
 
-    public long getStart() {
+    public Long getStart() {
         return start;
     }
 
-    public long getEnd() {
+    public Long getEnd() {
         return end;
     }
 
     public boolean isCorrect(){
-        return start == TimeInterval.INCORRECT_TIME_FORMAT
-                || end == TimeInterval.INCORRECT_TIME_FORMAT;
+        return start.equals(TimeInterval.INCORRECT_TIME_FORMAT)
+                || end.equals(TimeInterval.INCORRECT_TIME_FORMAT);
     }
 }
