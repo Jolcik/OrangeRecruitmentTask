@@ -4,6 +4,7 @@ import com.pkostrzenski.orange.models.TimeInterval;
 import com.pkostrzenski.orange.models.UserCalendar;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -19,6 +20,16 @@ public class CalendarServiceImpl implements CalendarService {
             UserCalendar secondCalendar,
             String meetingDuration
     ) throws IllegalArgumentException {
+
+        Long meetingDurationInMilis;
+        try {
+            meetingDurationInMilis = new SimpleDateFormat("HH:mm").parse(meetingDuration).getTime();
+        } catch (ParseException e){
+            throw new IllegalArgumentException("Incorrect meeting duration!");
+        }
+        if(firstCalendar.isIncorrect() || secondCalendar.isIncorrect())
+            throw new IllegalArgumentException("Provided calendars are incorrect (eg. overlaping meetings)");
+        
         List<String[]> strings = new LinkedList<>();
         for(TimeInterval interval: extractFreeTimePeriods(firstCalendar))
             strings.add(new String[] {
@@ -28,8 +39,6 @@ public class CalendarServiceImpl implements CalendarService {
 
         return strings;
     }
-
-
 
     private List<TimeInterval> extractFreeTimePeriods(UserCalendar calendar){
         return extractFreeTimePeriods(calendar, 0);

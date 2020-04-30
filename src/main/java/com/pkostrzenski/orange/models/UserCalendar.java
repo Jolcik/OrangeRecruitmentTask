@@ -22,14 +22,23 @@ public class UserCalendar {
         return plannedMeetings;
     }
 
-    public boolean isCorrect(){
+    public boolean isIncorrect(){
+        return isAnyMeetingIncorrect() || workingHours.isIncorrect() || isCollisionInMeetingHours();
+    }
+
+    private boolean isAnyMeetingIncorrect(){
         for(TimeInterval meeting: plannedMeetings)
-            if(!meeting.isCorrect())
-                return false;
+            if(meeting.isIncorrect())
+                return true;
 
-        if(!workingHours.isCorrect())
-            return false;
+        return false;
+    }
 
-        return true;
+    private boolean isCollisionInMeetingHours(){
+        for(int i = 0; i < plannedMeetings.size() - 1; ++i)
+            if(plannedMeetings.get(i).getEnd() > plannedMeetings.get(i+1).getStart())
+                return true;
+
+        return false;
     }
 }

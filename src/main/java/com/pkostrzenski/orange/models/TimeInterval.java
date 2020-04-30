@@ -37,7 +37,7 @@ public class TimeInterval {
         return end;
     }
 
-    public boolean isCorrect(){
+    public boolean isIncorrect(){
         return start.equals(TimeInterval.INCORRECT_TIME_FORMAT)
                 || end.equals(TimeInterval.INCORRECT_TIME_FORMAT);
     }
