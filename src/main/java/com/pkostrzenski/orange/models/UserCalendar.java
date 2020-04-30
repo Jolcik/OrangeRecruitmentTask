@@ -21,4 +21,15 @@ public class UserCalendar {
     public List<TimeInterval> getPlannedMeetings() {
         return plannedMeetings;
     }
+
+    public boolean isCorrect(){
+        for(TimeInterval meeting: plannedMeetings)
+            if(!meeting.isCorrect())
+                return false;
+
+        if(!workingHours.isCorrect())
+            return false;
+
+        return true;
+    }
 }
