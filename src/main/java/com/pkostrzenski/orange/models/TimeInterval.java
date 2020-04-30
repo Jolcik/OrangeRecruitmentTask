@@ -1,10 +1,11 @@
 package com.pkostrzenski.orange.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.pkostrzenski.orange.utils.DateConverter;
 
 import java.text.SimpleDateFormat;
 
-public class TimeInterval {
+public class TimeInterval implements Comparable<TimeInterval>{
 
     static final Long INCORRECT_TIME_FORMAT = -1L;
 
@@ -16,8 +17,8 @@ public class TimeInterval {
     @JsonCreator
     public TimeInterval(String start, String end) {
         try {
-            this.start = new SimpleDateFormat("HH:mm").parse(start).getTime();
-            this.end = new SimpleDateFormat("HH:mm").parse(end).getTime();
+            this.start = DateConverter.fromStringToLong(start);
+            this.end = DateConverter.fromStringToLong(end);
         } catch (Exception e){
             this.start = TimeInterval.INCORRECT_TIME_FORMAT;
             this.end = TimeInterval.INCORRECT_TIME_FORMAT;
@@ -40,5 +41,10 @@ public class TimeInterval {
     public boolean isIncorrect(){
         return start.equals(TimeInterval.INCORRECT_TIME_FORMAT)
                 || end.equals(TimeInterval.INCORRECT_TIME_FORMAT);
+    }
+
+    @Override
+    public int compareTo(TimeInterval o) {
+        return start.compareTo(o.start);
     }
 }
