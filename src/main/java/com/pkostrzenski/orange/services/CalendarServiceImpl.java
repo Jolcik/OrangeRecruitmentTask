@@ -26,13 +26,13 @@ public class CalendarServiceImpl implements CalendarService {
         if (firstCalendar.isIncorrect() || secondCalendar.isIncorrect())
             throw new IllegalArgumentException("Provided calendars are incorrect (eg. overlaping meetings)");
 
-        List<TimeInterval> freePeriodsInFirstCalendar = extractFreeTimePeriods(firstCalendar, meetingDurationInMilis);
-        List<TimeInterval> freePeriodsInSecondCalendar = extractFreeTimePeriods(secondCalendar, meetingDurationInMilis);
+        List<TimeInterval> freePeriodsInFirstCalendar = extractFreeTimeIntervals(firstCalendar, meetingDurationInMilis);
+        List<TimeInterval> freePeriodsInSecondCalendar = extractFreeTimeIntervals(secondCalendar, meetingDurationInMilis);
 
         return findPossibleMeetingHours(freePeriodsInFirstCalendar, freePeriodsInSecondCalendar, meetingDurationInMilis);
     }
 
-    private List<TimeInterval> extractFreeTimePeriods(UserCalendar calendar, Long minimalPeriodDuration) {
+    private List<TimeInterval> extractFreeTimeIntervals(UserCalendar calendar, Long minimalPeriodDuration) {
         List<Long> timePoints = new LinkedList<>();
 
         // build timeline
@@ -44,13 +44,13 @@ public class CalendarServiceImpl implements CalendarService {
         timePoints.add(calendar.getWorkingHours().getEnd());
 
         // extract time periods
-        List<TimeInterval> freePeriods = new LinkedList<>();
+        List<TimeInterval> freeTimeIntervals = new LinkedList<>();
         for (int i = 0; i < timePoints.size() - 1; i += 2)
             if (timePoints.get(i + 1) - timePoints.get(i) >= minimalPeriodDuration)
-                freePeriods.add(
+                freeTimeIntervals.add(
                         new TimeInterval(timePoints.get(i), timePoints.get(i + 1))
                 );
-        return freePeriods;
+        return freeTimeIntervals;
     }
 
     private List<TimeInterval> findPossibleMeetingHours(
@@ -66,7 +66,9 @@ public class CalendarServiceImpl implements CalendarService {
         List<TimeInterval> possibleMeetingHours = new LinkedList<>();
         for (int i = 0; i < allHours.size() - 1; ++i)
             if (allHours.get(i).getEnd() - allHours.get(i + 1).getStart() >= minimalDuration)
-                possibleMeetingHours.add(new TimeInterval(allHours.get(i + 1).getStart(), allHours.get(i).getEnd()));
+                possibleMeetingHours.add(
+                        new TimeInterval(allHours.get(i + 1).getStart(), allHours.get(i).getEnd())
+                );
 
         return possibleMeetingHours;
     }
