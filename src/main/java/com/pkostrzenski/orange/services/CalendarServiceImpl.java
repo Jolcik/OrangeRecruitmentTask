@@ -11,7 +11,7 @@ import java.util.*;
 public class CalendarServiceImpl implements CalendarService {
 
     @Override
-    public List<TimeInterval> getPossibleMeetingDates(
+    public List<TimeInterval> getPossibleMeetingHours(
             UserCalendar firstCalendar,
             UserCalendar secondCalendar,
             String meetingDuration
@@ -37,9 +37,13 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     private List<TimeInterval> extractFreeTimeIntervals(UserCalendar calendar) {
+        List<Long> timePoints = buildWorkdayTimeline(calendar);
+        return findFreeTimeIntervalsInTimeline(timePoints);
+    }
+
+    private List<Long> buildWorkdayTimeline(UserCalendar calendar){
         List<Long> timePoints = new LinkedList<>();
 
-        // build timeline
         timePoints.add(calendar.getWorkingHours().getStart());
         for (TimeInterval meeting : calendar.getPlannedMeetings()) {
             timePoints.add(meeting.getStart());
@@ -47,20 +51,25 @@ public class CalendarServiceImpl implements CalendarService {
         }
         timePoints.add(calendar.getWorkingHours().getEnd());
 
-        // extract time periods
+        return timePoints;
+    }
+
+    private List<TimeInterval> findFreeTimeIntervalsInTimeline(List<Long> timePoints){
         List<TimeInterval> freeTimeIntervals = new LinkedList<>();
+
         for (int i = 0; i < timePoints.size() - 1; i += 2)
             if (timePoints.get(i + 1) > timePoints.get(i))
                 freeTimeIntervals.add(
                         new TimeInterval(timePoints.get(i), timePoints.get(i + 1))
                 );
+
         return freeTimeIntervals;
     }
 
     private List<TimeInterval> findPossibleMeetingHours(
             List<TimeInterval> firstFreeHours,
             List<TimeInterval> secondFreeHours,
-            Long minimalDuration
+            Long minimalMeetingDuration
     ) {
         List<TimeInterval> allHours = new LinkedList<>();
         allHours.addAll(firstFreeHours);
@@ -68,8 +77,9 @@ public class CalendarServiceImpl implements CalendarService {
 
         Collections.sort(allHours);
         List<TimeInterval> possibleMeetingHours = new LinkedList<>();
+
         for (int i = 0; i < allHours.size() - 1; ++i)
-            if (allHours.get(i).getEnd() - allHours.get(i + 1).getStart() >= minimalDuration)
+            if (allHours.get(i).getEnd() - allHours.get(i + 1).getStart() >= minimalMeetingDuration)
                 possibleMeetingHours.add(
                         new TimeInterval(allHours.get(i + 1).getStart(), allHours.get(i).getEnd())
                 );

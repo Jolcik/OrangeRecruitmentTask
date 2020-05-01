@@ -5,7 +5,7 @@ import com.pkostrzenski.orange.models.UserCalendar;
 import java.util.List;
 
 public interface CalendarService {
-    List<TimeInterval> getPossibleMeetingDates(
+    List<TimeInterval> getPossibleMeetingHours(
             UserCalendar firstCalendar,
             UserCalendar secondCalendar,
             String meetingDuration

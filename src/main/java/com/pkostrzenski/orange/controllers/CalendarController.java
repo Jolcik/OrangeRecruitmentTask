@@ -20,11 +20,11 @@ public class CalendarController {
     CalendarService calendarService;
 
     @PostMapping("/api/possible-meeting-dates")
-    public ResponseEntity<?> getPossibleMeetingDates(
+    public ResponseEntity<?> getPossibleMeetingHours(
             @Valid @RequestBody PossibleMeetingDateRequest data
     ) {
         try {
-            List<TimeInterval> possibleMeetingHours = calendarService.getPossibleMeetingDates(
+            List<TimeInterval> possibleMeetingHours = calendarService.getPossibleMeetingHours(
                     data.getFirstCalendar(),
                     data.getSecondCalendar(),
                     data.getMeetingDuration()
