@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class CalendarServiceImpl implements CalendarService {
 
     @Override
-    public List<String[]> getPossibleMeetingDates(
+    public List<TimeInterval> getPossibleMeetingDates(
             UserCalendar firstCalendar,
             UserCalendar secondCalendar,
             String meetingDuration
@@ -32,14 +32,7 @@ public class CalendarServiceImpl implements CalendarService {
         List<TimeInterval> freePeriodsInFirstCalendar = extractFreeTimePeriods(firstCalendar, meetingDurationInMilis);
         List<TimeInterval> freePeriodsInSecondCalendar = extractFreeTimePeriods(secondCalendar, meetingDurationInMilis);
 
-
-        return findPossibleMeetingHours(freePeriodsInFirstCalendar, freePeriodsInSecondCalendar, meetingDurationInMilis)
-                .stream()
-                .map(timeInterval -> new String[]{
-                        DateConverter.fromLongToString(timeInterval.getStart()),
-                        DateConverter.fromLongToString(timeInterval.getEnd())
-                })
-                .collect(Collectors.toList());
+        return findPossibleMeetingHours(freePeriodsInFirstCalendar, freePeriodsInSecondCalendar, meetingDurationInMilis);
     }
 
     private List<TimeInterval> extractFreeTimePeriods(UserCalendar calendar){
