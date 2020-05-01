@@ -60,7 +60,7 @@ public class CalendarServiceImpl implements CalendarService {
         // extract time periods
         List<TimeInterval> freePeriods = new LinkedList<>();
         for(int i = 0; i < timePoints.size()-1; i += 2)
-            if(timePoints.get(i+1) - timePoints.get(i) > minimalPeriodDuration)
+            if(timePoints.get(i+1) - timePoints.get(i) >= minimalPeriodDuration)
                 freePeriods.add(
                         new TimeInterval(timePoints.get(i), timePoints.get(i + 1))
                 );
@@ -79,7 +79,7 @@ public class CalendarServiceImpl implements CalendarService {
         Collections.sort(allHours);
         List<TimeInterval> possibleMeetingHours = new LinkedList<>();
         for(int i = 0; i < allHours.size()-1; ++i)
-            if(allHours.get(i).getEnd() - allHours.get(i+1).getStart() > minimalDuration)
+            if(allHours.get(i).getEnd() - allHours.get(i+1).getStart() >= minimalDuration)
                 possibleMeetingHours.add(new TimeInterval(allHours.get(i+1).getStart(), allHours.get(i).getEnd()));
 
         return possibleMeetingHours;
