@@ -24,7 +24,7 @@ public class TimeInterval implements Comparable<TimeInterval> {
         }
     }
 
-    public TimeInterval(long start, long end) {
+    public TimeInterval(Long start, Long end) {
         this.start = start;
         this.end = end;
     }
@@ -39,7 +39,8 @@ public class TimeInterval implements Comparable<TimeInterval> {
 
     public boolean isIncorrect() {
         return start.equals(TimeInterval.INCORRECT_TIME_FORMAT)
-                || end.equals(TimeInterval.INCORRECT_TIME_FORMAT);
+                || end.equals(TimeInterval.INCORRECT_TIME_FORMAT)
+                || start > end;
     }
 
     @Override

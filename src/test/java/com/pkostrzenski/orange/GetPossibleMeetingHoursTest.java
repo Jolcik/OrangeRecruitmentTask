@@ -32,7 +32,7 @@ public class GetPossibleMeetingHoursTest {
 
     // the case provided in an email
     @Test
-    public void calendarService_GetPossibleMeetingDates_Correct() {
+    public void test_CalendarService_GetPossibleMeetingDates_Correct() {
         List<TimeInterval> possibleMeetingHours = calendarService.getPossibleMeetingHours(
                 getExampleCorrectUserCalendar_1(),
                 getExampleCorrectUserCalendar_2(),
@@ -50,7 +50,7 @@ public class GetPossibleMeetingHoursTest {
     }
 
     @Test
-    public void calendarService_GetPossibleMeetingDates_Correct_DifferentMeetingDuration() {
+    public void test_CalendarService_GetPossibleMeetingDates_Correct_DifferentMeetingDuration() {
         List<TimeInterval> possibleMeetingHours = calendarService.getPossibleMeetingHours(
                 getExampleCorrectUserCalendar_1(),
                 getExampleCorrectUserCalendar_2(),
@@ -64,7 +64,7 @@ public class GetPossibleMeetingHoursTest {
     }
 
     @Test
-    public void calendarService_GetPossibleMeetingDates_Correct_NoHours() {
+    public void test_CalendarService_GetPossibleMeetingDates_Correct_NoHours() {
         List<TimeInterval> possibleMeetingHours = calendarService.getPossibleMeetingHours(
                 getExampleCorrectUserCalendar_1(),
                 getExampleCorrectUserCalendar_2(),
@@ -74,7 +74,7 @@ public class GetPossibleMeetingHoursTest {
     }
 
     @Test
-    public void calendarService_GetPossibleMeetingDates_Correct_NoMeetings() {
+    public void test_CalendarService_GetPossibleMeetingDates_Correct_NoMeetings() {
         UserCalendar calendar1 = new UserCalendar(new TimeInterval("10:00", "18:30"), Collections.emptyList());
         UserCalendar calendar2 = new UserCalendar(new TimeInterval("11:00", "20:30"), Collections.emptyList());
         List<TimeInterval> possibleMeetingHours = calendarService.getPossibleMeetingHours(calendar1, calendar2, "00:30");
@@ -87,7 +87,7 @@ public class GetPossibleMeetingHoursTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void calendarService_GetPossibleMeetingDates_Incorrect_OverlapingMeetings() {
+    public void test_CalendarService_GetPossibleMeetingDates_Incorrect_OverlapingMeetings() {
         List<TimeInterval> meetings = new ArrayList<>();
         meetings.add(new TimeInterval("10:00", "11:00"));
         meetings.add(new TimeInterval("10:30", "12:00"));
@@ -96,14 +96,14 @@ public class GetPossibleMeetingHoursTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void calendarService_GetPossibleMeetingDates_Incorrect_IncorrectMeetingDuration_1() {
+    public void test_CalendarService_GetPossibleMeetingDates_Incorrect_IncorrectMeetingDuration_1() {
         List<TimeInterval> meetings = new ArrayList<>();
         UserCalendar calendar = new UserCalendar(new TimeInterval("10:00", "18:30"), meetings);
         calendarService.getPossibleMeetingHours(calendar, getExampleCorrectUserCalendar_1(), ":");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void calendarService_GetPossibleMeetingDates_Incorrect_IncorrectMeetingDuration_2() {
+    public void test_CalendarService_GetPossibleMeetingDates_Incorrect_IncorrectMeetingDuration_2() {
         List<TimeInterval> meetings = new ArrayList<>();
         UserCalendar calendar = new UserCalendar(new TimeInterval("10:00", "18:30"), meetings);
         calendarService.getPossibleMeetingHours(calendar, getExampleCorrectUserCalendar_1(), "a:30");
