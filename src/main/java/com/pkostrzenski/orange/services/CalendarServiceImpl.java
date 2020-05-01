@@ -26,13 +26,17 @@ public class CalendarServiceImpl implements CalendarService {
         if (firstCalendar.isIncorrect() || secondCalendar.isIncorrect())
             throw new IllegalArgumentException("Provided calendars are incorrect (eg. overlaping meetings)");
 
-        List<TimeInterval> freePeriodsInFirstCalendar = extractFreeTimeIntervals(firstCalendar, meetingDurationInMilis);
-        List<TimeInterval> freePeriodsInSecondCalendar = extractFreeTimeIntervals(secondCalendar, meetingDurationInMilis);
+        List<TimeInterval> freeTimeIntervalsInFirstCalendar = extractFreeTimeIntervals(firstCalendar);
+        List<TimeInterval> freeTimeIntervalsInSecondCalendar = extractFreeTimeIntervals(secondCalendar);
 
-        return findPossibleMeetingHours(freePeriodsInFirstCalendar, freePeriodsInSecondCalendar, meetingDurationInMilis);
+        return findPossibleMeetingHours(
+                freeTimeIntervalsInFirstCalendar,
+                freeTimeIntervalsInSecondCalendar,
+                meetingDurationInMilis
+        );
     }
 
-    private List<TimeInterval> extractFreeTimeIntervals(UserCalendar calendar, Long minimalPeriodDuration) {
+    private List<TimeInterval> extractFreeTimeIntervals(UserCalendar calendar) {
         List<Long> timePoints = new LinkedList<>();
 
         // build timeline
@@ -46,7 +50,7 @@ public class CalendarServiceImpl implements CalendarService {
         // extract time periods
         List<TimeInterval> freeTimeIntervals = new LinkedList<>();
         for (int i = 0; i < timePoints.size() - 1; i += 2)
-            if (timePoints.get(i + 1) - timePoints.get(i) >= minimalPeriodDuration)
+            if (timePoints.get(i + 1) > timePoints.get(i))
                 freeTimeIntervals.add(
                         new TimeInterval(timePoints.get(i), timePoints.get(i + 1))
                 );
