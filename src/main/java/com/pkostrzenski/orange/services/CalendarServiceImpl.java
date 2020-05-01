@@ -4,11 +4,8 @@ import com.pkostrzenski.orange.models.TimeInterval;
 import com.pkostrzenski.orange.models.UserCalendar;
 import com.pkostrzenski.orange.utils.DateConverter;
 import org.springframework.stereotype.Service;
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CalendarServiceImpl implements CalendarService {
@@ -33,10 +30,6 @@ public class CalendarServiceImpl implements CalendarService {
         List<TimeInterval> freePeriodsInSecondCalendar = extractFreeTimePeriods(secondCalendar, meetingDurationInMilis);
 
         return findPossibleMeetingHours(freePeriodsInFirstCalendar, freePeriodsInSecondCalendar, meetingDurationInMilis);
-    }
-
-    private List<TimeInterval> extractFreeTimePeriods(UserCalendar calendar){
-        return extractFreeTimePeriods(calendar, 0L);
     }
 
     private List<TimeInterval> extractFreeTimePeriods(UserCalendar calendar, Long minimalPeriodDuration){

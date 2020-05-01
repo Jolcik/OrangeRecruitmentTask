@@ -3,8 +3,6 @@ package com.pkostrzenski.orange.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.pkostrzenski.orange.utils.DateConverter;
 
-import java.text.SimpleDateFormat;
-
 public class TimeInterval implements Comparable<TimeInterval>{
 
     static final Long INCORRECT_TIME_FORMAT = -1L;
