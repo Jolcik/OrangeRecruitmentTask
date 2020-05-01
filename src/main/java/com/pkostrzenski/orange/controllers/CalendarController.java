@@ -22,7 +22,7 @@ public class CalendarController {
     @PostMapping("/api/possible-meeting-dates")
     public ResponseEntity<?> getPossibleMeetingDates(
             @Valid @RequestBody PossibleMeetingDateRequest data
-    ){
+    ) {
         try {
             List<TimeInterval> possibleMeetingHours = calendarService.getPossibleMeetingDates(
                     data.getFirstCalendar(),
@@ -30,14 +30,14 @@ public class CalendarController {
                     data.getMeetingDuration()
             );
             return ResponseEntity.ok(
-                possibleMeetingHours.stream()
-                        .map(timeInterval -> new String[]{
-                            DateConverter.fromLongToString(timeInterval.getStart()),
-                            DateConverter.fromLongToString(timeInterval.getEnd())
-                        })
-                        .collect(Collectors.toList())
+                    possibleMeetingHours.stream()
+                            .map(timeInterval -> new String[]{
+                                    DateConverter.fromLongToString(timeInterval.getStart()),
+                                    DateConverter.fromLongToString(timeInterval.getEnd())
+                            })
+                            .collect(Collectors.toList())
             );
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

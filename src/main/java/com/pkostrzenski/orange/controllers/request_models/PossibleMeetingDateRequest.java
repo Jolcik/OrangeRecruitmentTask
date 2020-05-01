@@ -1,15 +1,17 @@
 package com.pkostrzenski.orange.controllers.request_models;
 
 import com.pkostrzenski.orange.models.UserCalendar;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class PossibleMeetingDateRequest {
 
-    @NotBlank private String meetingDuration;
-    @NotNull private UserCalendar firstCalendar;
-    @NotNull private UserCalendar secondCalendar;
+    @NotBlank
+    private String meetingDuration;
+    @NotNull
+    private UserCalendar firstCalendar;
+    @NotNull
+    private UserCalendar secondCalendar;
 
     public PossibleMeetingDateRequest() { }
 

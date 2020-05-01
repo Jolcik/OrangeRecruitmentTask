@@ -22,21 +22,21 @@ public class UserCalendar {
         return plannedMeetings;
     }
 
-    public boolean isIncorrect(){
+    public boolean isIncorrect() {
         return isAnyMeetingIncorrect() || workingHours.isIncorrect() || isCollisionInMeetingHours();
     }
 
-    private boolean isAnyMeetingIncorrect(){
-        for(TimeInterval meeting: plannedMeetings)
-            if(meeting.isIncorrect())
+    private boolean isAnyMeetingIncorrect() {
+        for (TimeInterval meeting : plannedMeetings)
+            if (meeting.isIncorrect())
                 return true;
 
         return false;
     }
 
-    private boolean isCollisionInMeetingHours(){
-        for(int i = 0; i < plannedMeetings.size() - 1; ++i)
-            if(plannedMeetings.get(i).getEnd() > plannedMeetings.get(i+1).getStart())
+    private boolean isCollisionInMeetingHours() {
+        for (int i = 0; i < plannedMeetings.size() - 1; ++i)
+            if (plannedMeetings.get(i).getEnd() > plannedMeetings.get(i + 1).getStart())
                 return true;
 
         return false;

@@ -3,21 +3,22 @@ package com.pkostrzenski.orange.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.pkostrzenski.orange.utils.DateConverter;
 
-public class TimeInterval implements Comparable<TimeInterval>{
+public class TimeInterval implements Comparable<TimeInterval> {
 
     static final Long INCORRECT_TIME_FORMAT = -1L;
 
     private Long start;
     private Long end;
 
-    public TimeInterval() { }
+    public TimeInterval() {
+    }
 
     @JsonCreator
     public TimeInterval(String start, String end) {
         try {
             this.start = DateConverter.fromStringToLong(start);
             this.end = DateConverter.fromStringToLong(end);
-        } catch (Exception e){
+        } catch (Exception e) {
             this.start = TimeInterval.INCORRECT_TIME_FORMAT;
             this.end = TimeInterval.INCORRECT_TIME_FORMAT;
         }
@@ -36,7 +37,7 @@ public class TimeInterval implements Comparable<TimeInterval>{
         return end;
     }
 
-    public boolean isIncorrect(){
+    public boolean isIncorrect() {
         return start.equals(TimeInterval.INCORRECT_TIME_FORMAT)
                 || end.equals(TimeInterval.INCORRECT_TIME_FORMAT);
     }
